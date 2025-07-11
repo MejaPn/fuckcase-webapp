@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUCKCASE | Пополнение Stars</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        button {
+            background: #8774e1;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        input {
+            padding: 12px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>💰 Пополнение баланса</h2>
+        <p>1 Telegram Star = 1 токен</p>
+        
+        <input type="number" id="starsAmount" placeholder="Введите количество Stars" min="10">
+        <button onclick="sendPaymentData()">Пополнить</button>
+        
+        <p id="status"></p>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Раскрываем WebApp на весь экран
+        
+        function sendPaymentData() {
+            const starsAmount = document.getElementById('starsAmount').value;
+            const minAmount = 10;
+            
+            if (!starsAmount || starsAmount < minAmount) {
+                document.getElementById('status').innerText = `❌ Минимум ${minAmount} Stars`;
+                return;
+            }
+            
+            // Отправляем данные в бота
+            tg.sendData(JSON.stringify({
+                stars: parseInt(starsAmount)
+            }));
+            
+            document.getElementById('status').innerText = "✅ Запрос отправлен...";
+            setTimeout(() => tg.close(), 1500);
+        }
+    </script>
+</body>
+</html>
